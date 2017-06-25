@@ -12,14 +12,14 @@ library(MASS)
 ###
 
 # EDIT THE PATH TO WHERE THE SURVEY DATA IS: 
-path <- "/Users/melissa/Dropbox (ASU)/GeneticDrift/GeneticDrift_Assessment/"
+path <- "/Users/melissa/Dropbox (ASU)/Courses_assessments/2016_Spring_GeneticDrift/Teaching_GeneticDrift/"
 
 
 # EVERYTHING ELSE SHOULD RUN SO LONG AS YOU HAVE NOT EDITED THE NAME OF THE SURVEY DATA
 
 # This will automatincally make the path to the survey data in tab-delimited format
 # If you have edited the name of the survey data file on your computer, you will need to edit it below.
-data <- paste(path,"genetic_drift_data.txt", sep="")
+data <- paste(path,"data/genetic_drift_data.txt", sep="")
 
 # These will make a directory for printing plots
 # Later in the program, it will generate additional directories in this one
@@ -142,6 +142,13 @@ t(tests_gender)
 # Post_F-M   16.130435 16.886364 1.731977e-01
 # Diff_F-M    2.121739  2.488636 4.475020e-01
 
+plot_gender <- summary_gender[4,1:4]
+pdf(paste(plots_dir,'/Gender_pre-post.pdf', sep=""),width=6,height=4)
+barplot(plot_gender, col=c("blue","darkblue","green","darkgreen"),ylim=c(0,22))
+dev.off()
+
+
+
 ########################
 ### By First_Gen ###
 ########################
@@ -199,6 +206,10 @@ t(tests_first)
 # Diff_Y-N    1.920635  2.442857 3.264457e-01
 
 
+plot_first <- summary_first[4,1:4]
+pdf(paste(plots_dir,'/First_pre-post.pdf', sep=""),width=6,height=4)
+barplot(plot_first, col=c("blue","darkblue","green","darkgreen"),ylim=c(0,22))
+dev.off()
 
 
 ########################
@@ -377,6 +388,13 @@ t(tests_ethnicity)
 # Diff_POC-White  2.535714   2.10084 3.670503e-01
 
 
+plot_ethnicity <- summary_ethnicity[4,1:4]
+pdf(paste(plots_dir,'/Ethnicity_pre-post.pdf', sep=""),width=6,height=4)
+barplot(plot_ethnicity, col=c("blue","darkblue","green","darkgreen"),ylim=c(0,22))
+dev.off()
+
+
+
 ########################
 ### By Letter_Grade ###
 ########################
@@ -460,7 +478,10 @@ t(tests_grades)
 # Diff_B-C    1.619048  2.756098 1.063217e-01
 
 
-
+plot_grades <- summary_grades[4,1:6]
+pdf(paste(plots_dir,'/Grades_pre-post.pdf', sep=""),width=6,height=4)
+barplot(plot_grades, col=c("blue","darkblue","green","darkgreen","red","darkred"),ylim=c(0,22))
+dev.off()
 
 
 ##############################
@@ -488,17 +509,22 @@ length(out$Pair2_730[[1]])
 # Pair2_600: 21
 # Pair2_730: 21
 
-summary_pair <- cbind(as.matrix(summary(out$Pair1_300$Pre_test)),as.matrix(summary(out$Pair1_430$Post_test)),
-                      as.matrix(summary(out$Pair1_600$Pre_test)),as.matrix(summary(out$Pair1_730$Post_test)),
-                      as.matrix(summary(out$Pair2_300$Pre_test)),as.matrix(summary(out$Pair2_430$Post_test)),
-                      as.matrix(summary(out$Pair2_600$Pre_test)),as.matrix(summary(out$Pair2_730$Post_test)),
+summary_pair <- cbind(as.matrix(summary(out$Pair1_300$Pre_test)),as.matrix(summary(out$Pair1_300$Post_test)),
+                      as.matrix(summary(out$Pair1_430$Pre_test)),as.matrix(summary(out$Pair1_430$Post_test)),
+                      as.matrix(summary(out$Pair1_600$Pre_test)),as.matrix(summary(out$Pair1_600$Post_test)),
+                      as.matrix(summary(out$Pair1_730$Pre_test)),as.matrix(summary(out$Pair1_730$Post_test)),
+                      as.matrix(summary(out$Pair2_300$Pre_test)),as.matrix(summary(out$Pair2_300$Post_test)),
+                      as.matrix(summary(out$Pair2_430$Pre_test)),as.matrix(summary(out$Pair2_430$Post_test)),
+                      as.matrix(summary(out$Pair2_600$Pre_test)),as.matrix(summary(out$Pair2_600$Post_test)),
+                      as.matrix(summary(out$Pair2_730$Pre_test)),as.matrix(summary(out$Pair2_730$Post_test)),
                       as.matrix(summary(out$Pair1_300$Diff)),as.matrix(summary(out$Pair1_430$Diff)),as.matrix(summary(out$Pair1_600$Diff)),as.matrix(summary(out$Pair1_730$Diff)),
                       as.matrix(summary(out$Pair2_300$Diff)),as.matrix(summary(out$Pair2_430$Diff)),as.matrix(summary(out$Pair2_600$Diff)),as.matrix(summary(out$Pair2_730$Diff)))
 
-colnames(summary_pair) <- c("Pair1_300_Pre","Pair1_430_Post",
-                            "Pair1_600_Pre","Pair1_730_Post",
-                            "Pair2_300_Pre","Pair2_430_Post",
-                            "Pair2_600_Pre","Pair2_730_Post",
+
+colnames(summary_pair) <- c("Pair1_300_Pre","Pair1_300_Post","Pair1_430_Pre","Pair1_430_Post",
+                            "Pair1_600_Pre","Pair1_600_Post","Pair1_730_Pre","Pair1_730_Post",
+                            "Pair2_300_Pre","Pair2_300_Post","Pair2_430_Pre","Pair2_430_Post",
+                            "Pair2_600_Pre","Pair2_600_Post","Pair2_730_Pre","Pair2_730_Post",
                             "Pair1_300_Diff","Pair1_430_Diff","Pair1_600_Diff","Pair1_730_Diff",
                             "Pair2_300_Diff","Pair2_430_Diff","Pair2_600_Diff","Pair2_730_Diff")
 
@@ -506,14 +532,22 @@ colnames(summary_pair) <- c("Pair1_300_Pre","Pair1_430_Post",
 t(summary_pair)
 
 # Results
-#                Min. 1st Qu. Median    Mean 3rd Qu. Max.
+# Min. 1st Qu. Median    Mean 3rd Qu. Max.
 # Pair1_300_Pre     8   12.50   14.0 14.7700   17.00   22
+# Pair1_300_Post    8   15.50   18.0 17.2900   20.00   22
+# Pair1_430_Pre     7   10.75   12.0 12.5700   14.00   20
 # Pair1_430_Post    9   12.00   14.0 14.5400   18.00   22
 # Pair1_600_Pre    11   15.00   16.0 16.3600   18.00   21
+# Pair1_600_Post    8   17.00   19.0 18.2800   20.00   22
+# Pair1_730_Pre     9   11.50   14.0 14.5500   16.00   22
 # Pair1_730_Post    6   13.00   15.0 14.8200   17.00   21
 # Pair2_300_Pre     7   10.75   14.5 13.6800   16.00   22
+# Pair2_300_Post   10   13.75   16.0 16.9300   21.00   22
+# Pair2_430_Pre     6   11.00   13.5 14.0500   16.00   22
 # Pair2_430_Post    9   14.00   16.5 16.5300   20.00   22
 # Pair2_600_Pre    10   11.00   13.0 13.4300   15.00   19
+# Pair2_600_Post    8   12.00   16.0 15.2900   17.00   22
+# Pair2_730_Pre     8   12.00   14.0 14.2900   17.00   21
 # Pair2_730_Post   10   13.00   18.0 16.9000   21.00   22
 # Pair1_300_Diff   -4    0.00    2.0  2.5160    4.50   12
 # Pair1_430_Diff   -6   -0.25    2.0  1.9640    4.25    8
@@ -523,7 +557,6 @@ t(summary_pair)
 # Pair2_430_Diff   -2    0.00    1.5  2.4740    4.00   13
 # Pair2_600_Diff   -4   -1.00    1.0  1.8570    5.00    7
 # Pair2_730_Diff   -1    0.00    3.0  2.6190    4.00    9
-
 
 # t-test between pre/post and between pre and post of category
 
@@ -586,6 +619,14 @@ t(tests_pair)
 # Pair1-Pair2_430_Diff  1.9642857  2.473684 0.550243717
 # Pair1-Pair2_600_Diff  1.9200000  1.857143 0.944237674
 # Pair1-Pair2_730_Diff  0.2727273  2.619048 0.063128081
+
+
+plot_pair <- summary_pair[4,1:16]
+#colnames(plot_pair)<-c("Pre1_1","Post1_1","Pre2_1","Post2_1","Pre3_1","Post3_1","Pre4_1","Post4_1","Pre1_2","Post1_2","Pre2_2","Post2_2","Pre3_2","Post3_2","Pre4_2","Post4_2")
+pdf(paste(plots_dir,'/Pair_pre-post.pdf', sep=""),width=12,height=4)
+barplot(plot_pair, col=c("blue","darkblue","green","darkgreen","red","darkred","violet","purple"),ylim=c(0,22))
+dev.off()
+
 
 
 # Gender
@@ -697,8 +738,9 @@ q22 <- as.data.frame(table(test[,22]))
 test_table <- cbind(q1[,2],q2[,2],q3[,2],q4[,2],q5[,2],q6[,2],q7[,2],q8[,2],q9[,2],q10[,2],q11[,2],q12[,2],q13[,2],q14[,2],q14[,2],q15[,2],q16[,2],q17[,2],q18[,2],q19[,2],q20[,2],q21[,2],q22[,2])
 
 rownames(test_table) <- c("incorrect->correct","no_change_incorrect","correct->incorrect","no_change_correct")
-colnames <- c("q1","q2","q3","q4","q5","q6","q7","q8","q9","q10","q11","q12","q13","q14","q14","q15","q16","q17","q18","q19","q20","q21","q22")
+colnames(test_table) <- c("q1","q2","q3","q4","q5","q6","q7","q8","q9","q10","q11","q12","q13","q14","q14","q15","q16","q17","q18","q19","q20","q21","q22")
 test_table
+
 
 #### 
 # Add analysis of Genetic Drift question from third exam and the final
